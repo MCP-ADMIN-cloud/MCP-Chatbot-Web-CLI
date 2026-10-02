@@ -1,0 +1,8 @@
+{
+  "name": "MCP Chatbot : Chat with your MCP servers using cloud llms",
+  "description": "Android AI Chatbot by Zyven Technologies Pvt Ltd. Connect and chat with any MCP server over SSE/HTTP using cloud LLMs (Gemini, OpenAI, Claude, OpenRouter) with tool calling and multi-modal stream processing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

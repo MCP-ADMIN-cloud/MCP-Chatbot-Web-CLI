@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # Web UI Service (Default)
+  mcp-chatbot-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mcp-chatbot-ui
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - DEFAULT_PROVIDER=${DEFAULT_PROVIDER:-}
+      - DEFAULT_MODEL=${DEFAULT_MODEL:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - STARTUP_MCP_SERVERS=${STARTUP_MCP_SERVERS:-}
+    restart: unless-stopped
+
+  # Interactive Terminal CLI Service
+  mcp-chatbot-cli:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mcp-chatbot-cli
+    stdin_open: true
+    tty: true
+    command: ["--mode", "cli"]
+    environment:
+      - NODE_ENV=production
+      - DEFAULT_PROVIDER=${DEFAULT_PROVIDER:-openai}
+      - DEFAULT_MODEL=${DEFAULT_MODEL:-gpt-4o}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - STARTUP_MCP_SERVERS=${STARTUP_MCP_SERVERS:-}
+    volumes:
+      # Mount host directory for attaching files & audio in CLI mode
+      - ./:/app/workspace
+    profiles:
+      - cli
